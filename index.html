@@ -70,36 +70,87 @@
     <script type="text/babel">
       const { useState } = React;
 
-      const Navbar = () => (
-        <nav className="bg-white shadow-lg fixed w-full z-10">
+      const ThemeSwitch = ({ darkMode, setDarkMode }) => (
+        <button
+          onClick={() => setDarkMode((prev) => !prev)}
+          className={`ml-4 px-4 py-2 rounded-full font-semibold border transition ${
+            darkMode
+              ? "bg-gray-800 text-white border-gray-600 hover:bg-gray-700"
+              : "bg-white text-blue-900 border-blue-900 hover:bg-blue-100"
+          }`}
+          aria-label="Toggle dark mode"
+        >
+          {darkMode ? "🌙 Dark" : "☀️ Light"}
+        </button>
+      );
+
+      const Navbar = ({ darkMode, setDarkMode }) => (
+        <nav
+          className={`shadow-lg fixed w-full z-10 ${
+            darkMode ? "bg-gray-900" : "bg-white"
+          }`}
+        >
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
             <div className="flex justify-between items-center">
-              <h1 className="text-2xl font-bold text-blue-900">TaughtCode</h1>
-              <div className="space-x-4">
+              <h1
+                className={`text-2xl font-bold ${
+                  darkMode ? "text-white" : "text-blue-900"
+                }`}
+              >
+                TaughtCode
+              </h1>
+              <div className="space-x-4 flex items-center">
                 <a
                   href="#services"
-                  className="text-gray-700 hover:text-blue-600"
+                  className={
+                    darkMode
+                      ? "text-gray-200 hover:text-blue-400"
+                      : "text-gray-700 hover:text-blue-600"
+                  }
                 >
                   Services
                 </a>
-                <a href="#blogs" className="text-gray-700 hover:text-blue-600">
+                <a
+                  href="#blogs"
+                  className={
+                    darkMode
+                      ? "text-gray-200 hover:text-blue-400"
+                      : "text-gray-700 hover:text-blue-600"
+                  }
+                >
                   Blogs
                 </a>
-                <a href="#why-us" className="text-gray-700 hover:text-blue-600">
+                <a
+                  href="#why-us"
+                  className={
+                    darkMode
+                      ? "text-gray-200 hover:text-blue-400"
+                      : "text-gray-700 hover:text-blue-600"
+                  }
+                >
                   Why Us
                 </a>
                 <a
                   href="#process"
-                  className="text-gray-700 hover:text-blue-600"
+                  className={
+                    darkMode
+                      ? "text-gray-200 hover:text-blue-400"
+                      : "text-gray-700 hover:text-blue-600"
+                  }
                 >
                   Process
                 </a>
                 <a
                   href="#contact"
-                  className="text-gray-700 hover:text-blue-600"
+                  className={
+                    darkMode
+                      ? "text-gray-200 hover:text-blue-400"
+                      : "text-gray-700 hover:text-blue-600"
+                  }
                 >
                   Contact
                 </a>
+                <ThemeSwitch darkMode={darkMode} setDarkMode={setDarkMode} />
               </div>
             </div>
           </div>
@@ -179,9 +230,11 @@
         );
       };
 
-      const Hero = () => (
+      const Hero = ({ darkMode }) => (
         <section
-          className="hero-bg text-white pt-24 pb-16"
+          className={`${
+            darkMode ? "hero-bg-dark" : "hero-bg"
+          } text-white pt-24 pb-16`}
           style={{ position: "relative", overflow: "hidden" }}
         >
           <InteractiveBackground />
@@ -204,18 +257,45 @@
         </section>
       );
 
-      const ServiceCard = ({ title, description, icon }) => (
-        <div className="bg-white p-6 rounded-lg shadow-lg card-hover">
-          <div className="text-3xl mb-4 text-blue-600">{icon}</div>
-          <h3 className="text-xl font-semibold mb-2">{title}</h3>
-          <p className="text-gray-600">{description}</p>
+      // Update ServiceCard to support dark mode
+      const ServiceCard = ({ title, description, icon, darkMode }) => (
+        <div
+          className={`p-6 rounded-lg shadow-lg card-hover ${
+            darkMode ? "bg-gray-900 text-gray-200" : "bg-white text-gray-900"
+          }`}
+        >
+          <div
+            className={`text-3xl mb-4 ${
+              darkMode ? "text-blue-300" : "text-blue-600"
+            }`}
+          >
+            {icon}
+          </div>
+          <h3
+            className={`text-xl font-semibold mb-2 ${
+              darkMode ? "text-blue-300" : "text-blue-900"
+            }`}
+          >
+            {title}
+          </h3>
+          <p className={`${darkMode ? "text-gray-400" : "text-gray-600"}`}>
+            {description}
+          </p>
         </div>
       );
 
-      const Services = () => (
-        <section id="services" className="py-16 bg-gray-100">
+      // Update Services to pass darkMode
+      const Services = ({ darkMode }) => (
+        <section
+          id="services"
+          className={`py-16 ${darkMode ? "bg-gray-800" : "bg-gray-100"}`}
+        >
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-3xl font-bold text-center text-blue-900 mb-12">
+            <h2
+              className={`text-3xl font-bold text-center mb-12 ${
+                darkMode ? "text-blue-300" : "text-blue-900"
+              }`}
+            >
               Our Services
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -223,59 +303,92 @@
                 title="Freelance Development"
                 description="Crafting responsive frontends with React, robust backends with Node.js and Express, and full-stack solutions with MongoDB."
                 icon="💻"
+                darkMode={darkMode}
               />
               <ServiceCard
                 title="Research & Development"
                 description="Innovating through prototyping and exploring new solutions using JavaScript and Python."
                 icon="🔬"
+                darkMode={darkMode}
               />
               <ServiceCard
                 title="Artificial Intelligence"
                 description="Building AI-driven features with Python (TensorFlow, PyTorch) integrated into JavaScript applications."
                 icon="🤖"
+                darkMode={darkMode}
               />
               <ServiceCard
                 title="Product Development"
                 description="End-to-end product creation with agile methodologies, focusing on React and Node.js."
                 icon="🚀"
+                darkMode={darkMode}
               />
               <ServiceCard
                 title="Technical Guidance"
                 description="Providing expert advice, code reviews, and best practices for JavaScript ecosystems."
                 icon="📚"
+                darkMode={darkMode}
               />
               <ServiceCard
                 title="Project Maintenance"
                 description="Optimizing and supporting existing projects for reliability and performance."
                 icon="🛠️"
+                darkMode={darkMode}
               />
             </div>
           </div>
         </section>
       );
 
-      const BlogCard = ({ title, description, link }) => (
-        <div className="bg-white p-6 rounded-lg shadow-lg card-hover">
-          <h3 className="text-xl font-semibold mb-2 text-blue-900">{title}</h3>
-          <p className="text-gray-600 mb-4">{description}</p>
+      // Update BlogCard to support dark mode
+      const BlogCard = ({ title, description, link, darkMode }) => (
+        <div
+          className={`p-6 rounded-lg shadow-lg card-hover ${
+            darkMode ? "bg-gray-700 text-gray-200" : "bg-white text-gray-900"
+          }`}
+        >
+          <h3
+            className={`text-xl font-semibold mb-2 ${
+              darkMode ? "text-blue-300" : "text-blue-900"
+            }`}
+          >
+            {title}
+          </h3>
+          <p className={`mb-4 ${darkMode ? "text-gray-400" : "text-gray-600"}`}>
+            {description}
+          </p>
           <a
             href={link}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-blue-600 hover:underline"
+            className={`hover:underline ${
+              darkMode ? "text-blue-400" : "text-blue-600"
+            }`}
           >
             Read More
           </a>
         </div>
       );
 
-      const Blogs = () => (
-        <section id="blogs" className="py-16 bg-white">
+      // Update Blogs to pass darkMode
+      const Blogs = ({ darkMode }) => (
+        <section
+          id="blogs"
+          className={`py-16 ${darkMode ? "bg-gray-800" : "bg-white"}`}
+        >
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-3xl font-bold text-center text-blue-900 mb-12">
+            <h2
+              className={`text-3xl font-bold text-center mb-12 ${
+                darkMode ? "text-blue-300" : "text-blue-900"
+              }`}
+            >
               Our Blogs
             </h2>
-            <p className="text-center text-gray-600 max-w-2xl mx-auto mb-8">
+            <p
+              className={`text-center max-w-2xl mx-auto mb-8 ${
+                darkMode ? "text-gray-400" : "text-gray-600"
+              }`}
+            >
               Explore our insights on JavaScript, AI, and modern development
               practices, published on our blog and platforms like Medium.
             </p>
@@ -284,61 +397,96 @@
                 title="Mastering React Hooks"
                 description="A deep dive into using React Hooks for state management and side effects in modern web applications."
                 link="https://medium.com/@taughtcode/mastering-react-hooks"
+                darkMode={darkMode}
               />
               <BlogCard
                 title="Building Scalable APIs with Node.js"
                 description="Learn how to create robust and scalable APIs using Node.js and Express, with MongoDB integration."
                 link="https://medium.com/@taughtcode/scalable-nodejs-apis"
+                darkMode={darkMode}
               />
               <BlogCard
                 title="AI-Powered Web Apps"
                 description="Discover how to integrate Python-based AI models into JavaScript applications for smarter features."
                 link="https://medium.com/@taughtcode/ai-powered-web-apps"
+                darkMode={darkMode}
               />
             </div>
           </div>
         </section>
       );
 
-      const WhyUs = () => (
-        <section id="why-us" className="py-16 bg-gray-100">
+      // Update WhyUs to support dark mode
+      const WhyUs = ({ darkMode }) => (
+        <section
+          id="why-us"
+          className={`py-16 ${darkMode ? "bg-gray-900" : "bg-gray-100"}`}
+        >
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-3xl font-bold text-center text-blue-900 mb-12">
+            <h2
+              className={`text-3xl font-bold text-center mb-12 ${
+                darkMode ? "text-blue-300" : "text-blue-900"
+              }`}
+            >
               Why Choose TaughtCode?
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="p-6">
-                <h3 className="text-xl font-semibold text-blue-900 mb-2">
+                <h3
+                  className={`text-xl font-semibold mb-2 ${
+                    darkMode ? "text-blue-300" : "text-blue-900"
+                  }`}
+                >
                   JavaScript Expertise
                 </h3>
-                <p className="text-gray-600">
+                <p
+                  className={`${darkMode ? "text-gray-400" : "text-gray-600"}`}
+                >
                   Deep specialization in React, Node.js, Express, and MongoDB
                   for modern solutions.
                 </p>
               </div>
               <div className="p-6">
-                <h3 className="text-xl font-semibold text-blue-900 mb-2">
+                <h3
+                  className={`text-xl font-semibold mb-2 ${
+                    darkMode ? "text-blue-300" : "text-blue-900"
+                  }`}
+                >
                   AI Proficiency
                 </h3>
-                <p className="text-gray-600">
+                <p
+                  className={`${darkMode ? "text-gray-400" : "text-gray-600"}`}
+                >
                   Leveraging Python for cutting-edge AI solutions integrated
                   with JavaScript apps.
                 </p>
               </div>
               <div className="p-6">
-                <h3 className="text-xl font-semibold text-blue-900 mb-2">
+                <h3
+                  className={`text-xl font-semibold mb-2 ${
+                    darkMode ? "text-blue-300" : "text-blue-900"
+                  }`}
+                >
                   Solo Dedication
                 </h3>
-                <p className="text-gray-600">
+                <p
+                  className={`${darkMode ? "text-gray-400" : "text-gray-600"}`}
+                >
                   Personalized, high-quality service with direct communication
                   as a solo developer.
                 </p>
               </div>
               <div className="p-6">
-                <h3 className="text-xl font-semibold text-blue-900 mb-2">
+                <h3
+                  className={`text-xl font-semibold mb-2 ${
+                    darkMode ? "text-blue-300" : "text-blue-900"
+                  }`}
+                >
                   Innovation
                 </h3>
-                <p className="text-gray-600">
+                <p
+                  className={`${darkMode ? "text-gray-400" : "text-gray-600"}`}
+                >
                   Combining R&D and AI expertise to deliver forward-thinking
                   solutions.
                 </p>
@@ -348,10 +496,18 @@
         </section>
       );
 
-      const Process = () => (
-        <section id="process" className="py-16 bg-gray-100">
+      // Update Process to support dark mode
+      const Process = ({ darkMode }) => (
+        <section
+          id="process"
+          className={`py-16 ${darkMode ? "bg-gray-800" : "bg-gray-100"}`}
+        >
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-3xl font-bold text-center text-blue-900 mb-12">
+            <h2
+              className={`text-3xl font-bold text-center mb-12 ${
+                darkMode ? "text-blue-300" : "text-blue-900"
+              }`}
+            >
               Our Process
             </h2>
             <div className="space-y-8">
@@ -374,14 +530,30 @@
                 },
               ].map((item, index) => (
                 <div key={index} className="flex items-start">
-                  <div className="flex-shrink-0 w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">
+                  <div
+                    className={`flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center font-bold ${
+                      darkMode
+                        ? "bg-blue-700 text-white"
+                        : "bg-blue-600 text-white"
+                    }`}
+                  >
                     {index + 1}
                   </div>
                   <div className="ml-4">
-                    <h3 className="text-xl font-semibold text-blue-900">
+                    <h3
+                      className={`text-xl font-semibold ${
+                        darkMode ? "text-blue-300" : "text-blue-900"
+                      }`}
+                    >
                       {item.step}
                     </h3>
-                    <p className="text-gray-600">{item.desc}</p>
+                    <p
+                      className={`${
+                        darkMode ? "text-gray-400" : "text-gray-600"
+                      }`}
+                    >
+                      {item.desc}
+                    </p>
                   </div>
                 </div>
               ))}
@@ -390,7 +562,7 @@
         </section>
       );
 
-      const Contact = () => {
+      const Contact = ({ darkMode }) => {
         const formRef = React.useRef();
 
         const sendEmail = (e) => {
@@ -416,46 +588,81 @@
         };
 
         return (
-          <section id="contact" className="py-16 bg-white text-blue-900">
+          <section
+            id="contact"
+            className={`py-16  ${
+              darkMode
+                ? "bg-gray-900 text-white border-t border-gray-700"
+                : "bg-white text-blue-900"
+            }`}
+          >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
               <h2 className="text-3xl font-bold mb-6">Contact Us</h2>
               <p className="mb-4">taughtcode@gmail.com</p>
               <p className="mb-4">
                 Phone: +91 9084703723 | WhatsApp: +91 9084703723
               </p>
-              <div className="max-w-lg mx-auto bg-gray-100 p-6 rounded-lg contact-form shadow">
+              <div
+                className={`max-w-lg mx-auto p-6 rounded-lg contact-form shadow ${
+                  darkMode ? "bg-gray-800" : "bg-gray-100"
+                }`}
+              >
                 <form ref={formRef} onSubmit={sendEmail} className="space-y-4">
                   <div>
-                    <label className="block text-left text-blue-900 mb-1">
+                    <label
+                      className={`block text-left mb-1 ${
+                        darkMode ? "text-white" : "text-blue-900"
+                      }`}
+                    >
                       Name:
                     </label>
                     <input
                       type="text"
                       name="name"
-                      className="w-full p-2 border rounded text-blue-900 bg-white"
+                      className={`w-full p-2 border rounded ${
+                        darkMode
+                          ? "text-white bg-gray-900 border-gray-700"
+                          : "text-blue-900 bg-white"
+                      }`}
                       placeholder="Your Name"
                       required
                     />
                   </div>
                   <div>
-                    <label className="block text-left text-blue-900 mb-1">
+                    <label
+                      className={`block text-left mb-1 ${
+                        darkMode ? "text-white" : "text-blue-900"
+                      }`}
+                    >
                       Email:
                     </label>
                     <input
                       type="email"
                       name="email"
-                      className="w-full p-2 border rounded text-blue-900 bg-white"
+                      className={`w-full p-2 border rounded ${
+                        darkMode
+                          ? "text-white bg-gray-900 border-gray-700"
+                          : "text-blue-900 bg-white"
+                      }`}
                       placeholder="Your Email"
                       required
                     />
                   </div>
                   <div>
-                    <label className="block text-left text-blue-900 mb-1">
+                    <label
+                      className={`block text-left mb-1 ${
+                        darkMode ? "text-white" : "text-blue-900"
+                      }`}
+                    >
                       Message:
                     </label>
                     <textarea
                       name="message"
-                      className="w-full p-2 border rounded text-blue-900 bg-white"
+                      className={`w-full p-2 border rounded ${
+                        darkMode
+                          ? "text-white bg-gray-900 border-gray-700"
+                          : "text-blue-900 bg-white"
+                      }`}
                       placeholder="Your Message"
                       rows="4"
                       required
@@ -474,20 +681,102 @@
         );
       };
 
-      const App = () => (
-        <div>
-          <Navbar />
-          <Hero />
-          <Services />
-          <Blogs />
-          <WhyUs />
-          <Process />
-          <Contact />
-          <footer className="bg-blue-900 text-white py-6 text-center">
-            <p>© 2025 TaughtCode. All rights reserved.</p>
-          </footer>
+      const ProjectCard = ({ title, description, link, darkMode }) => (
+        <div
+          className={`p-6 rounded-lg shadow-lg card-hover ${
+            darkMode ? "bg-gray-700 text-gray-200" : "bg-white text-gray-900"
+          }`}
+        >
+          <h3
+            className={`text-xl font-semibold mb-2 ${
+              darkMode ? "text-blue-300" : "text-blue-900"
+            }`}
+          >
+            {title}
+          </h3>
+          <p className={`mb-4 ${darkMode ? "text-gray-400" : "text-gray-600"}`}>
+            {description}
+          </p>
+          <a
+            href={link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`hover:underline ${
+              darkMode ? "text-blue-400" : "text-blue-600"
+            }`}
+          >
+            View Project
+          </a>
         </div>
       );
+
+      const Projects = ({ darkMode }) => (
+        <section
+          id="projects"
+          className={`py-16 ${darkMode ? "bg-gray-900" : "bg-white"}`}
+        >
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2
+              className={`text-3xl font-bold text-center mb-12 ${
+                darkMode ? "text-blue-300" : "text-blue-900"
+              }`}
+            >
+              Completed Projects
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <ProjectCard
+                title="AI-Driven Portfolio Generator"
+                description="A tool to generate dynamic portfolios using AI, built with Node.js and Gemini API."
+                link="https://gagansharma.github.io/portfolio/project1"
+                darkMode={darkMode}
+              />
+              <ProjectCard
+                title="Code Comment Generator"
+                description="A web app for generating AI-powered comments for code snippets using TensorFlow.js."
+                link="https://gagansharma.github.io/portfolio/project2"
+                darkMode={darkMode}
+              />
+              <ProjectCard
+                title="Real-Time Image Classifier"
+                description="A browser-based image classification app using TensorFlow.js and pre-trained models."
+                link="https://gagansharma.github.io/portfolio/project3"
+                darkMode={darkMode}
+              />
+            </div>
+          </div>
+        </section>
+      );
+
+      // Update App to pass darkMode to all sections
+      const App = () => {
+        const [darkMode, setDarkMode] = useState(false);
+
+        React.useEffect(() => {
+          document.body.className = darkMode ? "bg-gray-900" : "bg-gray-100";
+        }, [darkMode]);
+
+        return (
+          <div className={darkMode ? "dark" : ""}>
+            <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
+            <Hero darkMode={darkMode} />
+            <Services darkMode={darkMode} />
+            <Projects darkMode={darkMode} />
+            <Blogs darkMode={darkMode} />
+            <WhyUs darkMode={darkMode} />
+            <Process darkMode={darkMode} />
+            <Contact darkMode={darkMode} />
+            <footer
+              className={`py-6 text-center ${
+                darkMode
+                  ? "bg-gray-950 text-gray-200"
+                  : "bg-blue-900 text-white"
+              }`}
+            >
+              <p>© 2025 TaughtCode. All rights reserved.</p>
+            </footer>
+          </div>
+        );
+      };
 
       ReactDOM.render(<App />, document.getElementById("root"));
     </script>
