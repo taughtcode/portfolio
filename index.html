@@ -159,6 +159,7 @@
 
       const InteractiveBackground = () => {
         const canvasRef = React.useRef(null);
+        const mouseRef = React.useRef({ x: window.innerWidth / 2, y: 200 });
 
         React.useEffect(() => {
           const canvas = canvasRef.current;
@@ -167,7 +168,7 @@
           const numStars = 100;
 
           canvas.width = window.innerWidth;
-          canvas.height = 400; // Limit height to hero section
+          canvas.height = window.innerHeight; // Limit height to hero section
 
           for (let i = 0; i < numStars; i++) {
             stars.push({
@@ -178,23 +179,29 @@
             });
           }
 
+          // Track mouse position
           const handleMouseMove = (e) => {
-            const { clientX, clientY } = e;
+            mouseRef.current = { x: e.clientX, y: e.clientY };
+          };
+          window.addEventListener("mousemove", handleMouseMove);
+
+          // Animate stars always, but direction is relative to mouse position
+          let animationId;
+          function animate() {
+            // Calculate direction based on mouse position
+            const { x: mouseX, y: mouseY } = mouseRef.current;
             stars.forEach((star) => {
-              const dx = (clientX - canvas.width / 2) * 0.002;
-              const dy = (clientY - canvas.height / 2) * 0.002;
-              star.x += dx * star.speed;
-              star.y += dy * star.speed;
+              const dx = (mouseX - canvas.width / 2) * 0.002;
+              const dy = (mouseY - canvas.height / 2) * 0.002;
+              star.x += dx * star.speed + (Math.random() - 0.5) * 0.2;
+              star.y += dy * star.speed + (Math.random() - 0.5) * 0.2;
 
               if (star.x < 0) star.x = canvas.width;
               if (star.x > canvas.width) star.x = 0;
               if (star.y < 0) star.y = canvas.height;
               if (star.y > canvas.height) star.y = 0;
             });
-            drawStars();
-          };
 
-          const drawStars = () => {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             stars.forEach((star) => {
               ctx.beginPath();
@@ -202,13 +209,14 @@
               ctx.fillStyle = "white";
               ctx.fill();
             });
-          };
 
-          window.addEventListener("mousemove", handleMouseMove);
-          drawStars();
+            animationId = requestAnimationFrame(animate);
+          }
+          animate();
 
           return () => {
             window.removeEventListener("mousemove", handleMouseMove);
+            cancelAnimationFrame(animationId);
           };
         }, []);
 
@@ -220,12 +228,12 @@
               top: 0,
               left: 0,
               width: "100%",
-              height: "400px",
+              height: "100vh",
               pointerEvents: "none",
               zIndex: 0,
             }}
             width={window.innerWidth}
-            height={400}
+            height={window.innerHeight}
           />
         );
       };
@@ -598,9 +606,7 @@
           <section
             id="contact"
             className={`py-16  ${
-              darkMode
-                ? "bg-gray-900 text-white border-t border-gray-700"
-                : "bg-white text-blue-900"
+              darkMode ? "bg-gray-900 text-white" : "bg-white text-blue-900"
             }`}
           >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
