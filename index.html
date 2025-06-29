@@ -106,9 +106,89 @@
         </nav>
       );
 
+      const InteractiveBackground = () => {
+        const canvasRef = React.useRef(null);
+
+        React.useEffect(() => {
+          const canvas = canvasRef.current;
+          const ctx = canvas.getContext("2d");
+          const stars = [];
+          const numStars = 100;
+
+          canvas.width = window.innerWidth;
+          canvas.height = 400; // Limit height to hero section
+
+          for (let i = 0; i < numStars; i++) {
+            stars.push({
+              x: Math.random() * canvas.width,
+              y: Math.random() * canvas.height,
+              size: Math.random() * 2 + 1,
+              speed: Math.random() * 0.5 + 0.2,
+            });
+          }
+
+          const handleMouseMove = (e) => {
+            const { clientX, clientY } = e;
+            stars.forEach((star) => {
+              const dx = (clientX - canvas.width / 2) * 0.002;
+              const dy = (clientY - canvas.height / 2) * 0.002;
+              star.x += dx * star.speed;
+              star.y += dy * star.speed;
+
+              if (star.x < 0) star.x = canvas.width;
+              if (star.x > canvas.width) star.x = 0;
+              if (star.y < 0) star.y = canvas.height;
+              if (star.y > canvas.height) star.y = 0;
+            });
+            drawStars();
+          };
+
+          const drawStars = () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            stars.forEach((star) => {
+              ctx.beginPath();
+              ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+              ctx.fillStyle = "white";
+              ctx.fill();
+            });
+          };
+
+          window.addEventListener("mousemove", handleMouseMove);
+          drawStars();
+
+          return () => {
+            window.removeEventListener("mousemove", handleMouseMove);
+          };
+        }, []);
+
+        return (
+          <canvas
+            ref={canvasRef}
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "400px",
+              pointerEvents: "none",
+              zIndex: 0,
+            }}
+            width={window.innerWidth}
+            height={400}
+          />
+        );
+      };
+
       const Hero = () => (
-        <section className="hero-bg text-white pt-24 pb-16">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center hero-content">
+        <section
+          className="hero-bg text-white pt-24 pb-16"
+          style={{ position: "relative", overflow: "hidden" }}
+        >
+          <InteractiveBackground />
+          <div
+            className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center hero-content"
+            style={{ position: "relative", zIndex: 1 }}
+          >
             <h1 className="text-4xl md:text-6xl font-bold mb-4">TaughtCode</h1>
             <p className="text-lg md:text-xl max-w-3xl mx-auto">
               Transforming ideas into reality with expert JavaScript and
@@ -311,69 +391,71 @@
       );
 
       const Contact = () => {
-        const [formData, setFormData] = useState({
-          name: "",
-          email: "",
-          message: "",
-        });
+        const formRef = React.useRef();
 
-        const handleChange = (e) => {
-          setFormData({ ...formData, [e.target.name]: e.target.value });
-        };
-
-        const handleSubmit = (e) => {
+        const sendEmail = (e) => {
           e.preventDefault();
-          alert("Thank you for your feedback! We will get back to you soon.");
-          setFormData({ name: "", email: "", message: "" });
+          // emailjs.init({ publicKey: "qhQ36yDdBQIy04Hja" });
+
+          emailjs
+            .sendForm(
+              "service_vf18ccl",
+              "template_oqwsvyg",
+              formRef.current,
+              "qhQ36yDdBQIy04Hja"
+            )
+            .then(
+              (result) => {
+                alert("Feedback sent successfully!");
+              },
+              (error) => {
+                alert("Failed to send feedback.");
+              }
+            );
+          e.target.reset();
         };
 
         return (
-          <section id="contact" className="py-16 bg-gray-800 text-white">
+          <section id="contact" className="py-16 bg-white text-blue-900">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
               <h2 className="text-3xl font-bold mb-6">Contact Us</h2>
               <p className="mb-4">taughtcode@gmail.com</p>
               <p className="mb-4">
                 Phone: +91 9084703723 | WhatsApp: +91 9084703723
               </p>
-              <div className="max-w-lg mx-auto bg-white bg-opacity-10 p-6 rounded-lg contact-form">
-                <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="max-w-lg mx-auto bg-gray-100 p-6 rounded-lg contact-form shadow">
+                <form ref={formRef} onSubmit={sendEmail} className="space-y-4">
                   <div>
-                    <label className="block text-left text-gray-200 mb-1">
+                    <label className="block text-left text-blue-900 mb-1">
                       Name:
                     </label>
                     <input
                       type="text"
                       name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      className="w-full p-2 border rounded"
+                      className="w-full p-2 border rounded text-blue-900 bg-white"
                       placeholder="Your Name"
                       required
                     />
                   </div>
                   <div>
-                    <label className="block text-left text-gray-200 mb-1">
+                    <label className="block text-left text-blue-900 mb-1">
                       Email:
                     </label>
                     <input
                       type="email"
                       name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      className="w-full p-2 border rounded"
+                      className="w-full p-2 border rounded text-blue-900 bg-white"
                       placeholder="Your Email"
                       required
                     />
                   </div>
                   <div>
-                    <label className="block text-left text-gray-200 mb-1">
+                    <label className="block text-left text-blue-900 mb-1">
                       Message:
                     </label>
                     <textarea
                       name="message"
-                      value={formData.message}
-                      onChange={handleChange}
-                      className="w-full p-2 border rounded"
+                      className="w-full p-2 border rounded text-blue-900 bg-white"
                       placeholder="Your Message"
                       rows="4"
                       required
