@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TaughtCode Portfolio</title>
+    <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.20.15/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap");
+      body {
+        font-family: "Inter", sans-serif;
+      }
+      .gradient-bg {
+        background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+      }
+      .card-hover {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      .card-hover:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      }
+    </style>
+  </head>
+  <body class="bg-gray-100">
+    <div id="root"></div>
+    <script type="text/babel">
+      const { useState } = React;
+
+      const Navbar = () => (
+        <nav className="bg-white shadow-lg fixed w-full z-10">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div className="flex justify-between items-center">
+              <h1 className="text-2xl font-bold text-blue-900">TaughtCode</h1>
+              <div className="space-x-4">
+                <a
+                  href="#services"
+                  className="text-gray-700 hover:text-blue-600"
+                >
+                  Services
+                </a>
+                <a href="#why-us" className="text-gray-700 hover:text-blue-600">
+                  Why Us
+                </a>
+                <a
+                  href="#process"
+                  className="text-gray-700 hover:text-blue-600"
+                >
+                  Process
+                </a>
+                <a
+                  href="#contact"
+                  className="text-gray-700 hover:text-blue-600"
+                >
+                  Contact
+                </a>
+              </div>
+            </div>
+          </div>
+        </nav>
+      );
+
+      const Hero = () => (
+        <section className="gradient-bg text-white pt-24 pb-16">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 className="text-4xl md:text-6xl font-bold mb-4">TaughtCode</h1>
+            <p className="text-lg md:text-xl max-w-3xl mx-auto">
+              Transforming ideas into reality with expert JavaScript and
+              AI-driven solutions.
+            </p>
+            <a
+              href="#contact"
+              className="mt-6 inline-block bg-white text-blue-900 px-6 py-3 rounded-full font-semibold hover:bg-blue-100"
+            >
+              Get in Touch
+            </a>
+          </div>
+        </section>
+      );
+
+      const ServiceCard = ({ title, description, icon }) => (
+        <div className="bg-white p-6 rounded-lg shadow-lg card-hover">
+          <div className="text-3xl mb-4 text-blue-600">{icon}</div>
+          <h3 className="text-xl font-semibold mb-2">{title}</h3>
+          <p className="text-gray-600">{description}</p>
+        </div>
+      );
+
+      const Services = () => (
+        <section id="services" className="py-16 bg-gray-100">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-3xl font-bold text-center text-blue-900 mb-12">
+              Our Services
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <ServiceCard
+                title="Freelance Development"
+                description="Crafting responsive frontends with React, robust backends with Node.js and Express, and full-stack solutions with MongoDB."
+                icon="💻"
+              />
+              <ServiceCard
+                title="Research & Development"
+                description="Innovating through prototyping and exploring new solutions using JavaScript and Python."
+                icon="🔬"
+              />
+              <ServiceCard
+                title="Artificial Intelligence"
+                description="Building AI-driven features with Python (TensorFlow, PyTorch) integrated into JavaScript applications."
+                icon="🤖"
+              />
+              <ServiceCard
+                title="Product Development"
+                description="End-to-end product creation with agile methodologies, focusing on React and Node.js."
+                icon="🚀"
+              />
+              <ServiceCard
+                title="Technical Guidance"
+                description="Providing expert advice, code reviews, and best practices for JavaScript ecosystems."
+                icon="📚"
+              />
+              <ServiceCard
+                title="Project Maintenance"
+                description="Optimizing and supporting existing projects for reliability and performance."
+                icon="🛠️"
+              />
+            </div>
+          </div>
+        </section>
+      );
+
+      const WhyUs = () => (
+        <section id="why-us" className="py-16 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-3xl font-bold text-center text-blue-900 mb-12">
+              Why Choose TaughtCode?
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="p-6">
+                <h3 className="text-xl font-semibold text-blue-900 mb-2">
+                  JavaScript Expertise
+                </h3>
+                <p className="text-gray-600">
+                  Deep specialization in React, Node.js, Express, and MongoDB
+                  for modern solutions.
+                </p>
+              </div>
+              <div className="p-6">
+                <h3 className="text-xl font-semibold text-blue-900 mb-2">
+                  AI Proficiency
+                </h3>
+                <p className="text-gray-600">
+                  Leveraging Python for cutting-edge AI solutions integrated
+                  with JavaScript apps.
+                </p>
+              </div>
+              <div className="p-6">
+                <h3 className="text-xl font-semibold text-blue-900 mb-2">
+                  Solo Dedication
+                </h3>
+                <p className="text-gray-600">
+                  Personalized, high-quality service with direct communication
+                  as a solo developer.
+                </p>
+              </div>
+              <div className="p-6">
+                <h3 className="text-xl font-semibold text-blue-900 mb-2">
+                  Innovation
+                </h3>
+                <p className="text-gray-600">
+                  Combining R&D and AI expertise to deliver forward-thinking
+                  solutions.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+      );
+
+      const Process = () => (
+        <section id="process" className="py-16 bg-gray-100">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-3xl font-bold text-center text-blue-900 mb-12">
+              Our Process
+            </h2>
+            <div className="space-y-8">
+              {[
+                {
+                  step: "Discovery",
+                  desc: "Collaborate to understand your project goals and requirements.",
+                },
+                {
+                  step: "Planning",
+                  desc: "Design a tailored technical roadmap, emphasizing JavaScript-based solutions.",
+                },
+                {
+                  step: "Development",
+                  desc: "Build solutions using agile practices, with a focus on React, Node.js, and MongoDB.",
+                },
+                {
+                  step: "Support",
+                  desc: "Provide ongoing maintenance and technical guidance to ensure long-term success.",
+                },
+              ].map((item, index) => (
+                <div key={index} className="flex items-start">
+                  <div className="flex-shrink-0 w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">
+                    {index + 1}
+                  </div>
+                  <div className="ml-4">
+                    <h3 className="text-xl font-semibold text-blue-900">
+                      {item.step}
+                    </h3>
+                    <p className="text-gray-600">{item.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+
+      const Contact = () => (
+        <section id="contact" className="py-16 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 className="text-3xl font-bold text-blue-900 mb-4">
+              Ready to Build Something Amazing?
+            </h2>
+            <p className="text-gray-600 max-w-2xl mx-auto mb-8">
+              Connect with TaughtCode on Upwork or reach out directly to discuss
+              your project needs.
+            </p>
+            <div className="space-y-4">
+              <p>
+                <strong>Upwork:</strong>{" "}
+                <a href="#" className="text-blue-600 hover:underline">
+                  [Insert Upwork Profile Link]
+                </a>
+              </p>
+              <p>
+                <strong>Email:</strong>{" "}
+                <a
+                  href="mailto:contact@taughtcode.com"
+                  className="text-blue-600 hover:underline"
+                >
+                  [Insert Email Address]
+                </a>
+              </p>
+              <p>
+                <strong>Website:</strong>{" "}
+                <a href="#" className="text-blue-600 hover:underline">
+                  [Insert Website URL]
+                </a>
+              </p>
+            </div>
+          </div>
+        </section>
+      );
+
+      const App = () => (
+        <div>
+          <Navbar />
+          <Hero />
+          <Services />
+          <WhyUs />
+          <Process />
+          <Contact />
+          <footer className="bg-blue-900 text-white py-6 text-center">
+            <p>&copy; 2025 TaughtCode. All rights reserved.</p>
+          </footer>
+        </div>
+      );
+
+      ReactDOM.render(<App />, document.getElementById("root"));
+    </script>
+  </body>
+</html>
