@@ -13,9 +13,6 @@
       body {
         font-family: "Inter", sans-serif;
       }
-      .gradient-bg {
-        background: linear-gradient(135deg, #1e3a8a, #3b82f6);
-      }
       .card-hover {
         transition: transform 0.3s ease, box-shadow 0.3s ease;
       }
@@ -23,9 +20,48 @@
         transform: translateY(-5px);
         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
       }
+      .hero-bg {
+        background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+        position: relative;
+        overflow: hidden;
+      }
+      .hero-bg::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.2) 0%,
+          transparent 70%
+        );
+        opacity: 0.3;
+        animation: pulse 10s ease-in-out infinite;
+        z-index: 0;
+      }
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+          opacity: 0.3;
+        }
+        50% {
+          transform: scale(1.5);
+          opacity: 0.5;
+        }
+        100% {
+          transform: scale(1);
+          opacity: 0.3;
+        }
+      }
+      .hero-content {
+        position: relative;
+        z-index: 1;
+      }
     </style>
   </head>
-  <body class="bg-gray-100">
+  <body className="bg-gray-100">
     <div id="root"></div>
     <script type="text/babel">
       const { useState } = React;
@@ -41,6 +77,9 @@
                   className="text-gray-700 hover:text-blue-600"
                 >
                   Services
+                </a>
+                <a href="#blogs" className="text-gray-700 hover:text-blue-600">
+                  Blogs
                 </a>
                 <a href="#why-us" className="text-gray-700 hover:text-blue-600">
                   Why Us
@@ -64,8 +103,8 @@
       );
 
       const Hero = () => (
-        <section className="gradient-bg text-white pt-24 pb-16">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <section className="hero-bg text-white pt-24 pb-16">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center hero-content">
             <h1 className="text-4xl md:text-6xl font-bold mb-4">TaughtCode</h1>
             <p className="text-lg md:text-xl max-w-3xl mx-auto">
               Transforming ideas into reality with expert JavaScript and
@@ -131,8 +170,54 @@
         </section>
       );
 
+      const BlogCard = ({ title, description, link }) => (
+        <div className="bg-white p-6 rounded-lg shadow-lg card-hover">
+          <h3 className="text-xl font-semibold mb-2 text-blue-900">{title}</h3>
+          <p className="text-gray-600 mb-4">{description}</p>
+          <a
+            href={link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 hover:underline"
+          >
+            Read More
+          </a>
+        </div>
+      );
+
+      const Blogs = () => (
+        <section id="blogs" className="py-16 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-3xl font-bold text-center text-blue-900 mb-12">
+              Our Blogs
+            </h2>
+            <p className="text-center text-gray-600 max-w-2xl mx-auto mb-8">
+              Explore our insights on JavaScript, AI, and modern development
+              practices, published on our blog and platforms like Medium.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <BlogCard
+                title="Mastering React Hooks"
+                description="A deep dive into using React Hooks for state management and side effects in modern web applications."
+                link="https://medium.com/@taughtcode/mastering-react-hooks"
+              />
+              <BlogCard
+                title="Building Scalable APIs with Node.js"
+                description="Learn how to create robust and scalable APIs using Node.js and Express, with MongoDB integration."
+                link="https://medium.com/@taughtcode/scalable-nodejs-apis"
+              />
+              <BlogCard
+                title="AI-Powered Web Apps"
+                description="Discover how to integrate Python-based AI models into JavaScript applications for smarter features."
+                link="https://medium.com/@taughtcode/ai-powered-web-apps"
+              />
+            </div>
+          </div>
+        </section>
+      );
+
       const WhyUs = () => (
-        <section id="why-us" className="py-16 bg-white">
+        <section id="why-us" className="py-16 bg-gray-100">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 className="text-3xl font-bold text-center text-blue-900 mb-12">
               Why Choose TaughtCode?
@@ -263,11 +348,12 @@
           <Navbar />
           <Hero />
           <Services />
+          <Blogs />
           <WhyUs />
           <Process />
           <Contact />
           <footer className="bg-blue-900 text-white py-6 text-center">
-            <p>&copy; 2025 TaughtCode. All rights reserved.</p>
+            <p>© 2025 TaughtCode. All rights reserved.</p>
           </footer>
         </div>
       );
