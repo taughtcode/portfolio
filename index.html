@@ -581,127 +581,42 @@
         </section>
       );
 
-      const Contact = ({ darkMode }) => {
-        const formRef = React.useRef();
-
-        const sendEmail = (e) => {
-          e.preventDefault();
-          if (window.emailjs) {
-            window.emailjs.init("qhQ36yDdBQIy04Hja");
-            window.emailjs
-              .sendForm(
-                "service_vf18ccl",
-                "template_oqwsvyg",
-                formRef.current,
-                "qhQ36yDdBQIy04Hja"
-              )
-              .then(
-                (result) => {
-                  alert("Feedback sent successfully!");
-                },
-                (error) => {
-                  alert("Failed to send feedback.");
-                }
-              );
-            e.target.reset();
-          } else {
-            alert(
-              "EmailJS is not loaded. Please check your internet connection."
-            );
-          }
-        };
-
-        return (
-          <section
-            id="contact"
-            className={`py-16  ${
-              darkMode ? "bg-gray-900 text-white" : "bg-white text-blue-900"
-            }`}
-          >
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-              <h2 className="text-3xl font-bold mb-6">Contact Us</h2>
-              <p className="mb-4">taughtcode@gmail.com</p>
-              <p className="mb-4">
-                Phone: +91 9084703723 | WhatsApp: +91 9084703723
+      const Contact = ({ darkMode }) => (
+        <section
+          id="contact"
+          className={`py-16 ${
+            darkMode ? "bg-gray-900 text-white" : "bg-white text-blue-900"
+          }`}
+        >
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 className="text-3xl font-bold mb-6">Contact Us</h2>
+            <div
+              className={`inline-block px-8 py-6 rounded-lg shadow ${
+                darkMode ? "bg-gray-800" : "bg-gray-100"
+              }`}
+            >
+              <p className="mb-2 font-semibold">
+                Email:{" "}
+                <a
+                  href="mailto:taughtcode@gmail.com"
+                  className={darkMode ? "text-blue-400" : "text-blue-700"}
+                >
+                  taughtcode@gmail.com
+                </a>
               </p>
-              <div
-                className={`max-w-lg mx-auto p-6 rounded-lg contact-form shadow ${
-                  darkMode ? "bg-gray-800" : "bg-gray-100"
-                }`}
-              >
-                <form ref={formRef} onSubmit={sendEmail} className="space-y-4">
-                  <div>
-                    <label
-                      className={`block text-left mb-1 ${
-                        darkMode ? "text-white" : "text-blue-900"
-                      }`}
-                    >
-                      Name:
-                    </label>
-                    <input
-                      type="text"
-                      name="name"
-                      className={`w-full p-2 border rounded ${
-                        darkMode
-                          ? "text-white bg-gray-900 border-gray-700"
-                          : "text-blue-900 bg-white"
-                      }`}
-                      placeholder="Your Name"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label
-                      className={`block text-left mb-1 ${
-                        darkMode ? "text-white" : "text-blue-900"
-                      }`}
-                    >
-                      Email:
-                    </label>
-                    <input
-                      type="email"
-                      name="email"
-                      className={`w-full p-2 border rounded ${
-                        darkMode
-                          ? "text-white bg-gray-900 border-gray-700"
-                          : "text-blue-900 bg-white"
-                      }`}
-                      placeholder="Your Email"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label
-                      className={`block text-left mb-1 ${
-                        darkMode ? "text-white" : "text-blue-900"
-                      }`}
-                    >
-                      Message:
-                    </label>
-                    <textarea
-                      name="message"
-                      className={`w-full p-2 border rounded ${
-                        darkMode
-                          ? "text-white bg-gray-900 border-gray-700"
-                          : "text-blue-900 bg-white"
-                      }`}
-                      placeholder="Your Message"
-                      rows="4"
-                      required
-                    />
-                  </div>
-                  <button
-                    type="submit"
-                    className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700"
-                  >
-                    Send Feedback
-                  </button>
-                </form>
-              </div>
+              <p className="font-semibold">
+                Phone / WhatsApp:{" "}
+                <a
+                  href="tel:+919084703723"
+                  className={darkMode ? "text-blue-400" : "text-blue-700"}
+                >
+                  +91 9084703723
+                </a>
+              </p>
             </div>
-          </section>
-        );
-      };
+          </div>
+        </section>
+      );
 
       const ProjectCard = ({ title, description, link, darkMode }) => (
         <div
