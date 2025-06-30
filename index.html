@@ -586,24 +586,29 @@
 
         const sendEmail = (e) => {
           e.preventDefault();
-          // emailjs.init({ publicKey: "qhQ36yDdBQIy04Hja" });
-
-          emailjs
-            .sendForm(
-              "service_vf18ccl",
-              "template_oqwsvyg",
-              formRef.current,
-              "qhQ36yDdBQIy04Hja"
-            )
-            .then(
-              (result) => {
-                alert("Feedback sent successfully!");
-              },
-              (error) => {
-                alert("Failed to send feedback.");
-              }
+          if (window.emailjs) {
+            window.emailjs.init("qhQ36yDdBQIy04Hja");
+            window.emailjs
+              .sendForm(
+                "service_vf18ccl",
+                "template_oqwsvyg",
+                formRef.current,
+                "qhQ36yDdBQIy04Hja"
+              )
+              .then(
+                (result) => {
+                  alert("Feedback sent successfully!");
+                },
+                (error) => {
+                  alert("Failed to send feedback.");
+                }
+              );
+            e.target.reset();
+          } else {
+            alert(
+              "EmailJS is not loaded. Please check your internet connection."
             );
-          e.target.reset();
+          }
         };
 
         return (
